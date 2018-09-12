@@ -1,0 +1,60 @@
+UI for EGD-Project1
+
+Meta Game:
+
+- Player indicators
+- Score indicators (?)
+- Indicators for each movement corresponding to the mini-game
+
+Arcade Shooter:
+
+- Score: displayed in the upper right
+   - Huge font: needs to be a secondary focus of attention
+- Timer: Displayed in the top center
+- Game Over Screen
+   - Displays original score, then transitions to new score
+   	  - Transition should be obvious (Fade, number scroll/wheel)
+   - Replay? button
+   - Exit Button (goes to main menu)
+- "U" key: Restart scene
+
+Boss Fight:
+
+- Score: displayed in bottom right (will always display as 0)
+- Boss Health: displayed in the top center of the screen
+   - Largest element in UI
+- Game Over Screen
+   - Displays score (0)
+   - Replay? Button
+   - Exit Button (goes to main menu)
+- "U" Key: restart scene
+
+Platformer:
+
+- Score: displayed in the top right
+- Death Counter: displayed in upper left
+- Timer: Displayed top middle
+- Win Screen
+   - Displays Score, time, and # of deaths
+   - Exit Button
+- Game Over Screen
+   - Displays Score and # of deaths
+   - Replay button
+   - Exit Button
+- "U" Key: restart scene
+
+Mini-game Main Menus:
+
+- Splash Screen
+- Game Title
+- Start Game / Play button
+- Controls button
+- Exit Game button
+
+Meta Game Main Menu:
+
+- Splash Screen
+- Game title
+- About button
+- Start Game button
+- Exit button
