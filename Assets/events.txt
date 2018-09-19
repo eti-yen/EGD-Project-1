@@ -1,2 +1,2 @@
-Max 0 die
-Max 0 win 989
+test 0 die
+test 0 win 110

@@ -49,9 +49,6 @@ public class LevelLoader : MonoBehaviour
         lastSwitch = Time.time;
         switchTime = Random.Range(minSwitchTime, maxSwitchTime);
         lastTimer = (int)Time.time;
-        //Test Code
-        EventSingleton.GetInstance().SetName("Max");
-        //End Test Code
     }
     
     void Update()

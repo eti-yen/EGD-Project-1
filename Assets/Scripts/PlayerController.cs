@@ -132,9 +132,6 @@ public class PlayerController : MonoBehaviour
         rb.constraints = RigidbodyConstraints2D.FreezeAll;
         yield return new WaitForSeconds(deathTimer);
         EventSingleton.GetInstance().Goal();
-        //Test Code
-        EventSingleton.GetInstance().SendEvents();
-        //End Test Code
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
@@ -24,6 +25,7 @@ public class EventSingleton
     public void SwapPlayer()
     {
         player = 1 - player;
+        score = 0;
     }
     
     public void SetName(string name)
@@ -43,7 +45,13 @@ public class EventSingleton
             events.Add(player + " 1cc");
         }
         
-        events.Add(player + " win " + time);
+        score = Math.Max(time, 0);
+        events.Add(player + " win " + score);
+    }
+    
+    public int GetScore()
+    {
+        return score;
     }
     
     public void AddDeath()
@@ -69,10 +77,11 @@ public class EventSingleton
     {
         playerName = "";
         ip = "events.txt";
-        time = 1000;
+        time = 0;
         player = 0;
         events = new List<string>();
         died = false;
+        score = 0;
     }
     
     private static EventSingleton instance;
@@ -83,5 +92,5 @@ public class EventSingleton
     private string ip;
     private string playerName;
     private List<string> events;
-    
+    private int score;
 }
