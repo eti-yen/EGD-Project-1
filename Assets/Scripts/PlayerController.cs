@@ -27,6 +27,7 @@ public class PlayerController : MonoBehaviour
     private bool airJump;
     private bool wallsAreFloors;
     private SpriteRenderer sr;
+    private float hVel;
     
     // Use this for initialization
     void Awake()
@@ -36,6 +37,7 @@ public class PlayerController : MonoBehaviour
         airJump = false;
         wallsAreFloors = false;
         sr = GetComponent<SpriteRenderer>();
+        hVel = 0;
     }
     
     // Update is called once per frame
@@ -59,6 +61,8 @@ public class PlayerController : MonoBehaviour
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpVelocity);
         }
+        
+        hVel = rb.velocity.x;
         
         rb.AddForce(force * rb.mass);
         
@@ -105,9 +109,11 @@ public class PlayerController : MonoBehaviour
     
     void OnCollisionEnter2D(Collision2D col)
     {
+        bool transition = false;
         if (col.gameObject.tag == "goal")
         {
             StartCoroutine(Win());
+            transition = true;
         }
         
         BlockSwitch block = col.gameObject.GetComponent<BlockSwitch>();
@@ -115,6 +121,12 @@ public class PlayerController : MonoBehaviour
         if(block != null && block.IsKillBlock())
         {
             StartCoroutine(Reset());
+            transition = true;
+        }
+        
+        if(!transition)
+        {
+            rb.velocity = new Vector2(hVel, rb.velocity.y);
         }
     }
     

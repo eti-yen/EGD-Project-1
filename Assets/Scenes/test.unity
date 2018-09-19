@@ -293,7 +293,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scrollDistance: {x: -4, y: 4}
-  scrollSpeed: {x: 5, y: 12}
+  scrollSpeed: {x: 6, y: 12}
 --- !u!20 &519420031
 Camera:
   m_ObjectHideFlags: 0
