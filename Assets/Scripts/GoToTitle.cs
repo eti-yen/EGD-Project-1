@@ -11,7 +11,7 @@ public class GoToTitle : MonoBehaviour
         if(Input.anyKeyDown)
         {
             EventSingleton.GetInstance().SwapPlayer();
-            SceneManager.LoadScene(0);
+            SceneManager.LoadScene("TitleScene");
         }
     }
 }

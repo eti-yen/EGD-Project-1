@@ -9,7 +9,7 @@ public class SendDataScript : MonoBehaviour
     
     public void OnDataWrite(string name)
     {
-        EventSingleton.GetInstance().SetName(name);
+        EventSingleton.GetInstance().SetName(name.Replace(' ', '_'));
         EventSingleton.GetInstance().SendEvents();
         
         toEnable.SetActive(true);

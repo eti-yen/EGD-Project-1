@@ -2,8 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Net;
+using System.Net.Sockets;
 using System.IO;
 using System.Linq;
+using System.Text;
 
 public class EventSingleton
 {
@@ -54,6 +57,11 @@ public class EventSingleton
         return score;
     }
     
+    public void SetIp(string address)
+    {
+        ip = address;
+    }
+    
     public void AddDeath()
     {
         events.Add(player + " die");
@@ -62,8 +70,19 @@ public class EventSingleton
     
     public void SendEvents()
     {
+        TcpClient client = new TcpClient(ip, port);
+        NetworkStream stream = client.GetStream();
+
         IEnumerable<string> namedEvents = events.Select(e => playerName + " " + e);
-        File.WriteAllLines(Application.dataPath + "/" + ip, namedEvents.ToArray());
+        foreach(string s in namedEvents)
+        {
+            byte[] data = Encoding.ASCII.GetBytes(s + "\n");
+            stream.Write(data, 0, data.Length);
+        }
+        
+        stream.Close();
+        client.Close();
+        
         events = new List<string>();
         died = false;
     }
@@ -76,7 +95,7 @@ public class EventSingleton
     private EventSingleton()
     {
         playerName = "";
-        ip = "events.txt";
+        ip = "127.0.0.1";
         time = 0;
         player = 0;
         events = new List<string>();
@@ -93,4 +112,5 @@ public class EventSingleton
     private string playerName;
     private List<string> events;
     private int score;
+    private static int port = 8192;
 }
