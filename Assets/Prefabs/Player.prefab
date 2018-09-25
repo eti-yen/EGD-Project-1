@@ -97,8 +97,6 @@ MonoBehaviour:
   airMovement: 6
   movementAxis: Horizontal
   jumpButton: Jump
-  rightSprite: {fileID: 21300000, guid: 9a42e0ef6d5daa54496f4fd7aa9dbc1f, type: 3}
-  leftSprite: {fileID: 21300000, guid: e1f952146700d2e409d239cb818dbef3, type: 3}
   deathTimer: 0.2
   deathPlane: -10
 --- !u!212 &212207335655641232
@@ -136,7 +134,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 9a42e0ef6d5daa54496f4fd7aa9dbc1f, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 95a72ab61b5c9604ca691ab218a03c04, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
