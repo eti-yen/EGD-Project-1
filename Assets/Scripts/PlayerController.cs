@@ -16,8 +16,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float airMovement;
     [SerializeField] private string movementAxis;
     [SerializeField] private string jumpButton;
-    [SerializeField] private Sprite rightSprite;
-    [SerializeField] private Sprite leftSprite;
     [SerializeField] private float deathTimer;
     [SerializeField] private float deathPlane;
     
@@ -45,8 +43,8 @@ public class PlayerController : MonoBehaviour
     {
         axis = Input.GetAxis(movementAxis);
         jump |= Input.GetButtonDown(jumpButton);
-        if(axis > 0) sr.sprite = rightSprite;
-        else if(axis < 0) sr.sprite = leftSprite;
+        if(axis > 0) sr.flipX = false;
+        else if(axis < 0) sr.flipX = true;
     }
     
     void FixedUpdate()
