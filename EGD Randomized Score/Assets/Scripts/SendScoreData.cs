@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using System.Net.Sockets;
@@ -19,7 +20,7 @@ public class SendScoreData : MonoBehaviour
 
 	public void SetPlayerName(string name)
 	{
-		playerName = name;
+		playerName = name.Replace(' ', '_');
 	}
 
 	public static void SetIP(string ipAddress)
@@ -29,23 +30,26 @@ public class SendScoreData : MonoBehaviour
 
 	public void SendScore(int newScore)
 	{
-		TcpClient client = new TcpClient(ip, port);
-		NetworkStream stream = client.GetStream();
-
-		string actualScoreEvent = playerName + " " + playerNum + " score " + actualScore;
-		byte[] data = Encoding.ASCII.GetBytes(actualScoreEvent + '\n');
-		stream.Write(data, 0, data.Length);
-
-		if (newScore == actualScore)
+		try
 		{
-			string scoreMatch = playerName + " " + playerNum + " match_score";
-			data = Encoding.ASCII.GetBytes(scoreMatch + '\n');
+			TcpClient client = new TcpClient(ip, port);
+			NetworkStream stream = client.GetStream();
+
+			string actualScoreEvent = playerName + " " + playerNum + " score " + actualScore;
+			byte[] data = Encoding.ASCII.GetBytes(actualScoreEvent + '\n');
 			stream.Write(data, 0, data.Length);
+
+			if (newScore == actualScore)
+			{
+				string scoreMatch = playerName + " " + playerNum + " match_score";
+				data = Encoding.ASCII.GetBytes(scoreMatch + '\n');
+				stream.Write(data, 0, data.Length);
+			}
+
+			stream.Close();
+			client.Close();
 		}
-
-		stream.Close();
-		client.Close();
-
+		catch (Exception) { }
 		playerNum = 1 - playerNum;
 	}
 }
