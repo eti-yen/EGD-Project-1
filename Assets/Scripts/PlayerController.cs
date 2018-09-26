@@ -18,7 +18,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private string jumpButton;
     [SerializeField] private float deathTimer;
     [SerializeField] private float deathPlane;
+    [SerializeField] private AudioClip jumpSound;
+    [SerializeField] private AudioClip die;
+    [SerializeField] private AudioClip win;
     
+    private AudioSource asr;
     private float axis;
     private bool jump;
     private Rigidbody2D rb;
@@ -26,6 +30,8 @@ public class PlayerController : MonoBehaviour
     private bool wallsAreFloors;
     private SpriteRenderer sr;
     private float hVel;
+    private bool dead = false;
+    bool jumped;
     
     // Use this for initialization
     void Awake()
@@ -36,6 +42,7 @@ public class PlayerController : MonoBehaviour
         wallsAreFloors = false;
         sr = GetComponent<SpriteRenderer>();
         hVel = 0;
+        asr = GetComponent<AudioSource>();
     }
     
     // Update is called once per frame
@@ -43,8 +50,15 @@ public class PlayerController : MonoBehaviour
     {
         axis = Input.GetAxis(movementAxis);
         jump |= Input.GetButtonDown(jumpButton);
-        if(axis > 0) sr.flipX = false;
-        else if(axis < 0) sr.flipX = true;
+        if(axis > 0)
+        {
+            sr.flipX = false;
+            
+        }
+        else if(axis < 0)
+        {
+            sr.flipX = true;
+        }
     }
     
     void FixedUpdate()
@@ -52,13 +66,17 @@ public class PlayerController : MonoBehaviour
         rb.gravityScale = gravityScale;
         bool grounded = isGrounded();
         Vector2 force = (grounded ? controlForce : airMovement) * Vector2.right * axis;
-        
+
+            
         rb.drag = grounded ? groundDrag : airDrag;
         
         if(jump && (airJump || grounded))
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpVelocity);
+            asr.clip = jumpSound;
+            asr.Play();
         }
+        
         
         hVel = rb.velocity.x;
         
@@ -130,17 +148,26 @@ public class PlayerController : MonoBehaviour
     
     IEnumerator Reset()
     {
-        rb.constraints = RigidbodyConstraints2D.FreezeAll;
-        sr.color = Color.red;
-        yield return new WaitForSeconds(deathTimer);
-        EventSingleton.GetInstance().AddDeath();
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        if(!dead)
+        {
+            dead = true;
+            rb.constraints = RigidbodyConstraints2D.FreezeAll;
+            sr.color = Color.red;
+            asr.clip = die;
+            asr.Play();
+            yield return new WaitForSeconds(deathTimer);
+            EventSingleton.GetInstance().AddDeath();
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
     }
     
     IEnumerator Win()
     {
         rb.constraints = RigidbodyConstraints2D.FreezeAll;
-        yield return new WaitForSeconds(deathTimer);
+        asr.clip = win;
+        asr.Play();
+        
+        yield return new WaitForSeconds(deathTimer * 2);
         EventSingleton.GetInstance().Goal();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
