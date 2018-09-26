@@ -31,11 +31,6 @@ public class EventSingleton
         score = 0;
     }
     
-    public void SetName(string name)
-    {
-        playerName = name;
-    }
-    
     public void SetTime(int time)
     {
         this.time = time;
@@ -48,13 +43,28 @@ public class EventSingleton
     
     public void Goal()
     {
-        if(deaths == 0)
-        {
-            events.Add(player + " 1cc");
-        }
-        
         score = Math.Max(time, 0);
-        events.Add(player + " win " + score);
+        
+        try
+        {
+            TcpClient client = new TcpClient(ip, port);
+            NetworkStream stream = client.GetStream();
+            
+            string s = ". " + player + " win " + score + " \n";
+            if(deaths == 0)
+            {
+                s = ". " + player + " 1cc\n" + s;
+            }
+            
+            byte[] data = Encoding.ASCII.GetBytes(s + "\n");
+            stream.Write(data, 0, data.Length);
+            
+            stream.Close();
+            client.Close();
+        }
+        catch(Exception){}
+        
+        deaths = 0;
     }
     
     public int GetScore()
@@ -69,36 +79,27 @@ public class EventSingleton
     
     public void AddDeath()
     {
-        events.Add(player + " die");
+        try
+        {
+            TcpClient client = new TcpClient(ip, port);
+            NetworkStream stream = client.GetStream();
+            
+            string s = ". " + player + " die\n";
+            
+            byte[] data = Encoding.ASCII.GetBytes(s + "\n");
+            stream.Write(data, 0, data.Length);
+            
+            stream.Close();
+            client.Close();
+        }
+        catch(Exception){}  
+            
         deaths += 1;
     }
     
     public int GetDeaths()
     {
         return deaths;
-    }
-    
-    public void SendEvents()
-    {
-        try
-        {
-            TcpClient client = new TcpClient(ip, port);
-            NetworkStream stream = client.GetStream();
-
-            IEnumerable<string> namedEvents = events.Select(e => playerName + " " + e);
-            foreach(string s in namedEvents)
-            {
-                byte[] data = Encoding.ASCII.GetBytes(s + "\n");
-                stream.Write(data, 0, data.Length);
-            }
-            
-            stream.Close();
-            client.Close();
-        }
-        catch(Exception){}   
-
-        events = new List<string>();
-        deaths = 0;
     }
     
     public void Tick()
@@ -108,23 +109,18 @@ public class EventSingleton
     
     private EventSingleton()
     {
-        playerName = "";
         ip = "127.0.0.1";
         time = 0;
         player = 0;
-        events = new List<string>();
         score = 0;
         deaths = 0;
     }
     
     private static EventSingleton instance;
-    
     private int player;
     private int time;
     private int deaths;
     private string ip;
-    private string playerName;
-    private List<string> events;
     private int score;
     private static int port = 8192;
 }
