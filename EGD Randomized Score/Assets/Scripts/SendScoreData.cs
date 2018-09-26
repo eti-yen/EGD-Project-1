@@ -49,7 +49,10 @@ public class SendScoreData : MonoBehaviour
 			stream.Close();
 			client.Close();
 		}
-		catch (Exception) { }
+		catch (Exception)
+        {
+            Debug.Log("Failed to Connect");
+        }
 		playerNum = 1 - playerNum;
 	}
 }
