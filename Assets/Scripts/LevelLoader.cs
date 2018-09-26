@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class LevelLoader : MonoBehaviour
 {
@@ -14,6 +15,8 @@ public class LevelLoader : MonoBehaviour
     [SerializeField] private float minSwitchTime = 2.0f;
     [SerializeField] private float maxSwitchTime = 5.0f;
     [SerializeField] private Vector2Int offset;
+    [SerializeField] private Text timer;
+    [SerializeField] private Text deathCounter;
     private float lastSwitch;
     private float switchTime;
     private int lastTimer;
@@ -90,7 +93,13 @@ public class LevelLoader : MonoBehaviour
         {
             lastTimer = (int)Time.time;
             EventSingleton.GetInstance().Tick();
+            if(EventSingleton.GetInstance().GetTime() <= 0)
+            {
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+            }
         }
+        timer.text = EventSingleton.GetInstance().GetTime().ToString();
+        deathCounter.text = EventSingleton.GetInstance().GetDeaths().ToString();
     }
     
     private byte translateChar(char value)

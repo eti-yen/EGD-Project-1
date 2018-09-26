@@ -41,9 +41,14 @@ public class EventSingleton
         this.time = time;
     }
     
+    public int GetTime()
+    {
+        return time;
+    }
+    
     public void Goal()
     {
-        if(!died)
+        if(deaths == 0)
         {
             events.Add(player + " 1cc");
         }
@@ -65,7 +70,12 @@ public class EventSingleton
     public void AddDeath()
     {
         events.Add(player + " die");
-        died = true;
+        deaths += 1;
+    }
+    
+    public int GetDeaths()
+    {
+        return deaths;
     }
     
     public void SendEvents()
@@ -88,7 +98,7 @@ public class EventSingleton
         catch(Exception){}   
 
         events = new List<string>();
-        died = false;
+        deaths = 0;
     }
     
     public void Tick()
@@ -103,15 +113,15 @@ public class EventSingleton
         time = 0;
         player = 0;
         events = new List<string>();
-        died = false;
         score = 0;
+        deaths = 0;
     }
     
     private static EventSingleton instance;
     
     private int player;
     private int time;
-    private bool died;
+    private int deaths;
     private string ip;
     private string playerName;
     private List<string> events;
