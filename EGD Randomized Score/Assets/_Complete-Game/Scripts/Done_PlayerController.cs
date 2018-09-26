@@ -7,8 +7,10 @@ public class Done_Boundary
 	public float xMin, xMax, zMin, zMax;
 }
 
+[RequireComponent(typeof(HPTracker))]
 public class Done_PlayerController : MonoBehaviour
 {
+	public int health;
 	public float speed;
 	public float tilt;
 	public Done_Boundary boundary;
@@ -18,14 +20,21 @@ public class Done_PlayerController : MonoBehaviour
 	public float fireRate;
 	 
 	private float nextFire;
+	private HPTracker hp;
+
+	void Start()
+	{
+		hp = GetComponent<HPTracker>();
+		hp.onDeath = this.Die;
+	}
 	
-	void Update ()
+	void Update()
 	{
 		if (Input.GetKeyDown(KeyCode.Space) && Time.time > nextFire) 
 		{
 			nextFire = Time.time + fireRate;
 			Instantiate(shot, shotSpawn.position, shotSpawn.rotation);
-			GetComponent<AudioSource>().Play ();
+			GetComponent<AudioSource>().Play();
 		}
 	}
 
@@ -44,6 +53,11 @@ public class Done_PlayerController : MonoBehaviour
 			Mathf.Clamp (GetComponent<Rigidbody>().position.z, boundary.zMin, boundary.zMax)
 		);
 		
-		GetComponent<Rigidbody>().rotation = Quaternion.Euler (0.0f, 0.0f, GetComponent<Rigidbody>().velocity.x * -tilt);
+		GetComponent<Rigidbody>().rotation = Quaternion.Euler (0.0f, 90.0f, GetComponent<Rigidbody>().velocity.x * -tilt);
+	}
+
+	void Die()
+	{
+
 	}
 }
