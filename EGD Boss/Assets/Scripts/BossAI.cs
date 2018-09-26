@@ -14,6 +14,7 @@ public class BossAI : MonoBehaviour
 	[SerializeField] private float highZ;
 	[SerializeField] private float lowZ;
 	[SerializeField] private float moveRate;
+	[SerializeField] private float attackDelayVariance = 1.5f;
 	[SerializeField] private float attackDelay = 5f;
 	private const float switchThreshold = 0.1f;
 	private HPTracker hp;
@@ -43,6 +44,7 @@ public class BossAI : MonoBehaviour
 	{
 		while (true)
 		{
+			float wait = Random.Range(attackDelay - attackDelayVariance, attackDelay + attackDelayVariance);
 			yield return new WaitForSeconds(attackDelay);
 			animtaro.SetTrigger("Attack");
 			shootySound.Play();
