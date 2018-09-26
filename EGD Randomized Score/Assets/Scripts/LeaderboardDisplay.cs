@@ -50,6 +50,7 @@ public class LeaderboardDisplay : MonoBehaviour
 		enterName.interactable = false;
 		enterName.GetComponent<Image>().enabled = false;
 		enterName.textComponent.enabled = false;
+		displayScoreNum.text = "" + changeScore;
         displayScoreText.enabled = true;
         displayScoreNum.enabled = true;
 		dataSender.SendScore(changeScore);

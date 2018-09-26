@@ -83,7 +83,7 @@ public class Leaderboard : MonoBehaviour
 			scoreReturn = scores[switchIndex];
 		}
 		SaveScores();
-		return score;
+		return scoreReturn;
 	}
 
 	void SaveScores()
