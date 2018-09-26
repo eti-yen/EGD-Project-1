@@ -14,6 +14,7 @@ public class LeaderboardDisplay : MonoBehaviour
     public GameObject mainmenuButton;
     [SerializeField] private Text displayScoreText;
     [SerializeField] private Text displayScoreNum;
+	[SerializeField] private SendScoreData dataSender;
 
     Leaderboard board;
 	int newScore = 0;
@@ -33,6 +34,7 @@ public class LeaderboardDisplay : MonoBehaviour
 
 	public void AskName(int score)
 	{
+		dataSender.SetActualScore(score);
         gameoverPanel.SetActive(true);
 		enterName.gameObject.SetActive(true);
         mainmenuButton.SetActive(true);
@@ -43,12 +45,14 @@ public class LeaderboardDisplay : MonoBehaviour
 	public void AddScore(InputField nameField)
 	{
 		string name = nameField.text;
+		dataSender.SetPlayerName(name);
 		int changeScore = board.AddScore(name, newScore);
 		enterName.interactable = false;
 		enterName.GetComponent<Image>().enabled = false;
 		enterName.textComponent.enabled = false;
         displayScoreText.enabled = true;
         displayScoreNum.enabled = true;
+		dataSender.SendScore(changeScore);
 	}
 
 	public void DisplayLeaderboard()
