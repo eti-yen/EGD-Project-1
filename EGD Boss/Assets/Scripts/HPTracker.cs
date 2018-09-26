@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class HPTracker : MonoBehaviour
 {
+	[SerializeField] AudioSource hitSound;
 	public int maxHealth;
 	public int currentHealth;
 
@@ -20,6 +21,7 @@ public class HPTracker : MonoBehaviour
 	
 	public void Damage(int damageDone)
 	{
+		hitSound.Play();
 		currentHealth -= damageDone;
 		if (currentHealth <= 0)
 			onDeath();

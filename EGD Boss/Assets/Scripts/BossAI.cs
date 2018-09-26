@@ -6,6 +6,7 @@ using UnityEngine;
 [RequireComponent(typeof(Animator))]
 public class BossAI : MonoBehaviour
 {
+	[SerializeField] AudioSource shootySound;
 	[SerializeField] Transform fireSpawn;
 	[SerializeField] GameObject fire;
 	[SerializeField] private int regenAmount;
@@ -44,6 +45,7 @@ public class BossAI : MonoBehaviour
 		{
 			yield return new WaitForSeconds(attackDelay);
 			animtaro.SetTrigger("Attack");
+			shootySound.Play();
 			Instantiate(fire, fireSpawn.position, fireSpawn.rotation);
 		}
 	}
