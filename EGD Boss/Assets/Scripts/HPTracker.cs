@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class HPTracker : MonoBehaviour
 {
@@ -11,10 +12,14 @@ public class HPTracker : MonoBehaviour
 	public delegate void Death();
 	public Death onDeath;
 
+    public Slider healthbar;
+    public GameObject gameoverPanel;
+
 	// Use this for initialization
 	void Start()
 	{
 		currentHealth = maxHealth;
+        healthbar.value = currentHealth;
 		if (onDeath == null)
 			onDeath = () => Destroy(this.gameObject); 
 	}
@@ -23,7 +28,11 @@ public class HPTracker : MonoBehaviour
 	{
 		hitSound.Play();
 		currentHealth -= damageDone;
-		if (currentHealth <= 0)
-			onDeath();
+        healthbar.value = currentHealth;
+        if (currentHealth <= 0)
+        {
+            gameoverPanel.SetActive(true);
+            onDeath();
+        }
 	}
 }
