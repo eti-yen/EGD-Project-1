@@ -546,7 +546,7 @@ Prefab:
     - target: {fileID: 114615779987991806, guid: 0c2425a04123ac54d9bd01d17e0bc079,
         type: 2}
       propertyPath: m_Text
-      value: YOU RAN OUT OF TIME
+      value: GAME OVER
       objectReference: {fileID: 0}
     - target: {fileID: 224816898241305752, guid: 0c2425a04123ac54d9bd01d17e0bc079,
         type: 2}
@@ -599,6 +599,14 @@ Prefab:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1095104876951358, guid: 0c2425a04123ac54d9bd01d17e0bc079, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1691832791441156, guid: 0c2425a04123ac54d9bd01d17e0bc079, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1397663389072238, guid: 0c2425a04123ac54d9bd01d17e0bc079, type: 2}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
