@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 [System.Serializable]
 public class Done_Boundary 
@@ -12,6 +13,7 @@ public class Done_PlayerController : MonoBehaviour
 {
 	bool dead = false;
 	[SerializeField] Animator anim;
+	[SerializeField] SendData sender;
 	public int health;
 	public float speed;
 	public float tilt;
@@ -33,6 +35,12 @@ public class Done_PlayerController : MonoBehaviour
 	
 	void Update()
 	{
+		if (dead)
+		{
+			if (Input.GetKeyDown(KeyCode.R))
+				SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+			return;
+		}
 		if (!dead)
 		{
 			if (Input.GetKeyDown(KeyCode.Space) && Time.time > nextFire)
@@ -70,5 +78,6 @@ public class Done_PlayerController : MonoBehaviour
 	{
 		dead = true;
 		anim.SetBool("Dead", true);
+		sender.SendScore();
 	}
 }

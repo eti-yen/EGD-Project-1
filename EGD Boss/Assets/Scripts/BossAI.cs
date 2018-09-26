@@ -32,8 +32,10 @@ public class BossAI : MonoBehaviour
 	void Update()
 	{
 		if (hp.currentHealth <= regenThreshold)
+		{
 			hp.currentHealth += regenAmount;
-		Debug.Log(hp.currentHealth);
+			SendData.timesRegenerated++;
+		}
 	}
 
 	IEnumerator Attack()
