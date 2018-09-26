@@ -70,19 +70,23 @@ public class EventSingleton
     
     public void SendEvents()
     {
-        TcpClient client = new TcpClient(ip, port);
-        NetworkStream stream = client.GetStream();
-
-        IEnumerable<string> namedEvents = events.Select(e => playerName + " " + e);
-        foreach(string s in namedEvents)
+        try
         {
-            byte[] data = Encoding.ASCII.GetBytes(s + "\n");
-            stream.Write(data, 0, data.Length);
+            TcpClient client = new TcpClient(ip, port);
+            NetworkStream stream = client.GetStream();
+
+            IEnumerable<string> namedEvents = events.Select(e => playerName + " " + e);
+            foreach(string s in namedEvents)
+            {
+                byte[] data = Encoding.ASCII.GetBytes(s + "\n");
+                stream.Write(data, 0, data.Length);
+            }
+            
+            stream.Close();
+            client.Close();
         }
-        
-        stream.Close();
-        client.Close();
-        
+        catch(Exception){}   
+
         events = new List<string>();
         died = false;
     }

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LevelLoader : MonoBehaviour
 {
@@ -53,6 +54,10 @@ public class LevelLoader : MonoBehaviour
     
     void Update()
     {
+        if(Input.GetButtonDown("Cancel"))
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        }
         float currentTime = Time.time;
         if(currentTime - lastSwitch >= switchTime)
         {
